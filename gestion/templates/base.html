@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema de Reportes{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+
+<body>
+    <header>
+        <div class="img-logo">
+            <img src="{% static 'img/logo.png' %}" alt="">
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li class="nav-item"><a href="">Inicio</a></li>
+                <li class="nav-item"><a href="">Nosotros</a></li>
+                <li class="nav-item"><a href="">Paga</a></li>
+                <li class="nav-item"><a href="">Reserva tu cancha</a></li>
+                <li class="nav-item">
+                    <form method="GET" action="{}">
+                        <input type="text" name="q" placeholder="Buscar canchas..." value="">
+                        <button type="submit">Buscar</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>
