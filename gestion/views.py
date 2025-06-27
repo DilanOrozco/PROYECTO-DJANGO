@@ -9,11 +9,6 @@ def index (request):
 def login (request):
     return render(request, 'login.html')
 
-def signUp (request):
-    return render(request, 'signUp.html')
-
-
-
 
 def registro(request):
     if request.method == 'POST':
