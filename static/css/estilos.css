@@ -1,34 +1,143 @@
-*{
-    padding: 0px;
-    margin: 0px;
+/* RESET Y CONFIGURACIÓN GENERAL */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: 'Inter', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    }
+
+/* CONTAINERS */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 1rem;
 }
 
-header{
-    width: 100%;
+/* HEADER */
+.header {
+    background-color: #1f2937;
+    color: white;
+    padding: 1rem 0;
+}
+
+.header-container {
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    overflow: hidden;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.navbar ul {
-    display: flex;
+.logo img {
+    height: 50px;
+}
+
+/* NAV */
+.nav-list {
     list-style: none;
-    gap: 30px;
+    display: flex;
+    gap: 1.5rem;
 }
 
-.img-logo{
-    width: 200px;
+.nav-list li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
-.img-logo > img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.nav-list li a:hover {
+    color: #60a5fa;
+}
+
+/* SEARCH FORM */
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
     overflow: hidden;
+    padding: 0 0.5rem;
+}
+
+.search-form input {
+    border: none;
+    padding: 0.5rem;
+    outline: none;
+}
+
+.search-form button {
+    background-color: transparent;
+    border: none;
+    color: #1f2937;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    color: #60a5fa;
+}
+
+/* MAIN */
+.main-content {
+    padding: 2rem ;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #1f2937;
+    color: white;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.social-icons {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icons li a {
+    color: white;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.social-icons li a:hover {
+    color: #60a5fa;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-form {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .search-form input {
+        flex: 1;
+        width: 100%;
+    }
 }

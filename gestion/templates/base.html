@@ -4,7 +4,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Sistema de Reportes{% endblock %}</title>
+    <title>{% block title %}CanchApp{% endblock %}</title>
+    <link rel="icon" href="../../static/img/icono_sin_fondo.png" type="image-png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -12,28 +13,67 @@
 </head>
 
 <body>
-    <header>
-        <div class="img-logo">
-            <img src="{% static 'img/logo.png' %}" alt="">
+    {% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CanchApp - Reserva tu cancha</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <!-- Íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- HEADER MODERNO -->
+    <header class="header">
+        <div class="container header-container">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="Logo CanchApp" />
         </div>
-        <nav class="navbar">
-            <ul>
-                <li class="nav-item"><a href="">Inicio</a></li>
-                <li class="nav-item"><a href="">Nosotros</a></li>
-                <li class="nav-item"><a href="">Paga</a></li>
-                <li class="nav-item"><a href="">Reserva tu cancha</a></li>
-                <li class="nav-item">
-                    <form method="GET" action="{}">
-                        <input type="text" name="q" placeholder="Buscar canchas..." value="">
-                        <button type="submit">Buscar</button>
-                    </form>
-                </li>
+
+        <!-- Navegación -->
+        <nav class="nav">
+            <ul class="nav-list">
+            <li><a href="">Inicio</a></li>
+            <li><a href="">Nosotros</a></li>
+            <li><a href="">Paga</a></li>
+            <li><a href="">Reserva tu cancha</a></li>
             </ul>
         </nav>
+
+        <!-- Barra de búsqueda -->
+        <form class="search-form" method="GET" action="#">
+            <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        </div>
     </header>
-    <main>
-        {% block content %}{% endblock %}
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        {% block content %}
+        <!-- Aquí va el contenido dinámico de cada vista -->
+        {% endblock %}
     </main>
+
+    <!-- FOOTER MODERNO -->
+    <footer class="footer">
+        <div class="container footer-container">
+        <p>© 2025 CanchApp. Todos los derechos reservados.</p>
+        <ul class="social-icons">
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
 
     <script src="{% static 'js/app.js' %}"></script>
 </body>
