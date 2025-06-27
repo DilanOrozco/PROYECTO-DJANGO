@@ -41,8 +41,12 @@
 
         <!-- Autenticación -->
         {% if user.is_authenticated %}
-        <div class="welcome-message">
-            Bienvenido, {{ user.first_name|default:user.username }} 👋
+        <div class="welcome-auth">
+        <span class="welcome-message">Bienvenido, {{ user.first_name|default:user.username }} 👋</span>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="btn logout-btn">Cerrar Sesión</button>
+        </form>
         </div>
         {% else %}
         <a href="#" class="btn">Iniciar Sesión</a>
