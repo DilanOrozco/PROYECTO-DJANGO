@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     color: #333;
     }
 html, body {
@@ -28,14 +28,18 @@ html, body {
 .header {
     background-color: #1f2937;
     color: white;
-    padding: 1rem 0;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+        
 }
 
 .logo img {
@@ -102,28 +106,28 @@ html, body {
 
 /* cerrar sesion btn */
 .welcome-auth {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    }
 
-.welcome-message {
-  font-weight: bold;
-  color: #2563eb;
-}
+    .welcome-message {
+    font-weight: bold;
+    color: #2563eb;
+    }
 
-.logout-btn {
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
+    .logout-btn {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    }
 
-.logout-btn:hover {
-  background-color: #dc2626;
+    .logout-btn:hover {
+    background-color: #dc2626;
 }
 
 /* MAIN */

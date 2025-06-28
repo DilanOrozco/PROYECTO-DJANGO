@@ -6,6 +6,13 @@ from django.contrib import messages
 def index (request):
     return render(request, 'index.html')
 
+def nosotros (request):
+    return render(request, 'nosotros.html')
+
+def reserva_cancha(request):
+
+    return render(request, 'reserva.html')
+
 def login (request):
     return render(request, 'login.html')
 

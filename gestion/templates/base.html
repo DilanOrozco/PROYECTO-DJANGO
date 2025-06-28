@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
-    
+    <script src="https://kit.fontawesome.com/2132230c71.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -18,18 +18,18 @@
     <!-- HEADER MODERNO -->
     <header class="header">
     <div class="container header-container">
+
         <!-- Logo -->
         <div class="logo">
         <img src="{% static 'img/logo.png' %}" alt="Logo CanchApp" />
         </div>
-
+        
         <!-- Navegación -->
         <nav class="nav">
         <ul class="nav-list">
-            <li><a href="">Inicio</a></li>
-            <li><a href="">Nosotros</a></li>
-            <li><a href="">Paga</a></li>
-            <li><a href="">Reserva tu cancha</a></li>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href="{% url 'nosotros' %}">Nosotros</a></li>
+            <li><a href="{% url 'reserva' %}">Reserva tu cancha</a></li>
         </ul>
         </nav>
 
@@ -38,7 +38,7 @@
         <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}">
         <button type="submit"><i class="fas fa-search"></i></button>
         </form>
-
+        
         <!-- Autenticación -->
         {% if user.is_authenticated %}
         <div class="welcome-auth">
@@ -47,12 +47,14 @@
             {% csrf_token %}
             <button type="submit" class="btn logout-btn">Cerrar Sesión</button>
         </form>
-        </div>
+    <div>
         {% else %}
         <a href="{% url 'login' %}" class="btn">Iniciar Sesión</a>
         <a href="{% url 'signUp' %}" class="btn">Registrarse</a>
         {% endif %}
+        
     </div>
+    
 </header>
 
 

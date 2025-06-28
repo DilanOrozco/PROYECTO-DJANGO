@@ -2,24 +2,181 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <title>Registro</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f4f8;
+        }
+
+        .register-container {
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 900px;
+            max-width: 100%;
+        }
+
+        .left-panel {
+            background-color: #25a2a6;
+            color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .left-panel h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .left-panel p {
+            font-size: 14px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .left-panel a {
+            padding: 10px 20px;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .left-panel a:hover {
+            background-color: white;
+            color: #25a2a6;
+        }
+
+        .form-panel {
+            flex: 1.2;
+            padding: 40px;
+        }
+
+        .form-panel h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icons i {
+            font-size: 18px;
+            margin: 0 8px;
+            padding: 8px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .form-panel p {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #25a2a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1d7d80;
+        }
+    </style>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h2>Registro de Usuario</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrarse</button>
-    </form>
+    <div class="register-container">
+        <div class="left-panel">
+            <h2>¡Hola!</h2>
+            <p>Regístrese con sus datos personales para usar todas las funciones del sitio</p>
+            <a href="/login">Iniciar Sesión</a>
+        </div>
+        <div class="form-panel">
+            <h2>Registrarse</h2>
+            <div class="social-icons">
+                <i class="fab fa-twitch"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-tiktok"></i>
+            </div>
+            <p>Use su correo electrónico para registrarse</p>
 
-    {% if form.errors %}
-        <ul style="color:red;">
-        {% for field in form %}
-            {% for error in field.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-        </ul>
-    {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="error-message">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit">REGISTRARSE</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

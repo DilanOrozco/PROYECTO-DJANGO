@@ -65,9 +65,12 @@
     margin-bottom: 1rem;
     color: #444;
     }
-
+    #link1{
+    color: #2563eb;
+    text-decoration:   indigo;
+    }
     .alquiler-header a {
-    color: #1e40af;
+    color:aliceblue;
     text-decoration: none;
     }
 
@@ -145,6 +148,7 @@
     .carousel-nav.next {
     right: 0;
     }
+
     .carousel-nav:hover {
     background-color: #f3f4f6;
     }
