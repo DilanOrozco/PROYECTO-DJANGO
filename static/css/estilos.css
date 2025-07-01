@@ -77,32 +77,59 @@ html, body {
     transition: background-color 0.3s, transform 0.2s;
 }
 /* SEARCH FORM */
+/* Contenedor del formulario */
 .search-form {
     display: flex;
     align-items: center;
-    background-color: white;
-    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid #ffffff33;
+    border-radius: 8px;
     overflow: hidden;
-    padding: 0 0.5rem;
+    transition: all 0.3s ease;
+    margin-left: 20px;
 }
 
-.search-form input {
+.search-form:focus-within {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Campo de texto */
+.search-input {
+    padding: 10px 15px;
     border: none;
-    padding: 0.5rem;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
     outline: none;
+    width: 180px;
 }
 
-.search-form button {
-    background-color: transparent;
+.search-input::placeholder {
+    color: #ddd;
+}
+
+/* Botón con ícono */
+.search-btn {
+    background: transparent;
+    color: white;
+    padding: 10px 14px;
     border: none;
-    color: #1f2937;
-    padding: 0.5rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.search-form button:hover {
-    color: #60a5fa;
+.search-btn:hover {
+    color: #0d6efd;
 }
+
+/* Ícono de lupa */
+.search-btn i {
+    font-size: 1rem;
+}
+
 
 /* cerrar sesion btn */
 .welcome-auth {
@@ -197,4 +224,40 @@ html, body {
         flex: 1;
         width: 100%;
     }
+}
+
+
+/* Estilo base */
+.btn-auth {
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Botón Iniciar Sesión */
+.login-btn {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.login-btn:hover {
+    background-color: #ffffff;
+    color: #0d6efd;
+}
+
+/* Botón Registrarse */
+.signup-btn {
+    background-color: #0d6efd;
+    color: #ffffff;
+    border: 2px solid #0d6efd;
+}
+
+.signup-btn:hover {
+    background-color: #ffffff;
+    color: #0d6efd;
 }

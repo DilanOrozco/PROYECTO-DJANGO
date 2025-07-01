@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}CanchApp{% endblock %}</title>
-    <link rel="icon" href="../../static/img/icono_sin_fondo.png" type="image-png">
+    <link rel="icon" href="../../static/img/logoblancosolo.png" type="image-png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 
         <!-- Logo -->
         <div class="logo">
-        <img src="{% static 'img/logo.png' %}" alt="Logo CanchApp" />
+        <img src="../../static/img/logoblanco.png" alt="Logo CanchApp" />
         </div>
         
         <!-- Navegación -->
@@ -34,10 +34,13 @@
         </nav>
 
         <!-- Barra de búsqueda -->
-        <form class="search-form" method="GET" action="#">
-        <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}">
-        <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
+<form class="search-form" method="GET" action="#">
+    <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}" class="search-input">
+    <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
+
         
         <!-- Autenticación -->
         {% if user.is_authenticated %}
@@ -49,9 +52,10 @@
         </form>
     <div>
         {% else %}
-        <a href="{% url 'login' %}" class="btn">Iniciar Sesión</a>
-        <a href="{% url 'signUp' %}" class="btn">Registrarse</a>
+        <a href="{% url 'login' %}" class="btn btn-auth login-btn">Iniciar Sesión</a>
+        <a href="{% url 'signUp' %}" class="btn btn-auth signup-btn">Registrarse</a>
         {% endif %}
+
         
     </div>
     

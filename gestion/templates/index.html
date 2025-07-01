@@ -3,18 +3,18 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
-<br><br>
+
     <section class="alquiler-section">
     <div class="alquiler-header">
-        <h2>Alquiler</h2>
-        <p>
+        <h2 id="anc">Alquiler</h2><br>
+        <p id="texto-alquiler">
         A partir de las 6:00 p.m. es posible alquilar los espacios deportivos para el público general. 
         Escribe a <a href="mailto:espaciosdeportivos.medellin@upb.edu.co" id="link1">CanchApp.medellin@gmail.com</a> o al 
         <a href="tel:+573233210699" id="link1">3233210699</a> para conocer la disponibilidad y reservar.
         </p>
         <a href="#" class="btn-tarifas">Conoce las tarifas de alquiler</a>
     </div>
-
+    <h1 id="anc">Algunas de nuestras canchas</h1>
     <div class="carousel-wrapper">
         <button class="carousel-nav prev">&#10094;</button>
         <div class="carousel-track">
@@ -74,15 +74,43 @@
     </section>
 
     <!-- Sección adicional: Pasos -->
-    <section class="steps-section">
-    <h2>Reserva rápida en 3 pasos</h2>
-    <ol class="steps-list">
-        <li><strong>1.</strong> Busca la cancha ideal</li>
-        <li><strong>2.</strong> Selecciona fecha y hora</li>
-        <li><strong>3.</strong> Confirma y paga en línea</li>
-    </ol>
-    
+<section class="steps-section">
+  <div class="steps-container">
+    <h2 class="steps-title">Reserva rápida en 3 pasos</h2>
+    <div class="steps-cards">
+
+      <!-- Paso 1 -->
+      <div class="step-card animate-step" style="--delay: 0s">
+        <div class="step-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Buscar" />
+        </div>
+        <span class="step-number">1</span>
+        <p class="step-text">Busca la cancha ideal</p>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="step-card animate-step" style="--delay: 0.2s">
+        <div class="step-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/2922/2922506.png" alt="Fecha y hora" />
+        </div>
+        <span class="step-number">2</span>
+        <p class="step-text">Selecciona fecha y hora</p>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="step-card animate-step" style="--delay: 0.4s">
+        <div class="step-icon">
+          <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Pagar" />
+        </div>
+        <span class="step-number">3</span>
+        <p class="step-text">Confirma y paga en línea</p>
+      </div>
+
+    </div>
+  </div>
 </section>
+
+
 <script>
 
     const track = document.querySelector(".carousel-track");
@@ -99,4 +127,5 @@
 
 
 </script>
+
 {% endblock %}
