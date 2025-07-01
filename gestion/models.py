@@ -13,6 +13,7 @@ class Cancha (models.Model):
     nombre = models.CharField(max_length=100)
     ubicacion = models.CharField(max_length=150)
     tipo = models.CharField(max_length=20, choices=tipo_cancha )
+    imagen = models.ImageField(upload_to='imagenes/', blank=True, null=True)
     disponible = models.BooleanField(default=True)
     
     def __str__(self):
