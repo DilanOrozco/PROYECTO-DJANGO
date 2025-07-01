@@ -112,6 +112,11 @@
             text-align: center;
             margin-top: 15px;
         }
+
+        p{
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
@@ -119,7 +124,7 @@
         <div class="left-panel">
             <h2>¡Hola!</h2>
             <p>Ya tienes una cuenta?</p>
-            <a href="{% url 'signUp' %}">Registrate¡</a>
+            <a href="{% url 'signUp' %}">Registrate!</a>
         </div>
         <div class="form-panel">
             <h2>Iniciar sesión</h2>
