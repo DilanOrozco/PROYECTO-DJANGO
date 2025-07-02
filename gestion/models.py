@@ -13,6 +13,8 @@ class Cancha (models.Model):
     nombre = models.CharField(max_length=100)
     ubicacion = models.CharField(max_length=150)
     tipo = models.CharField(max_length=20, choices=tipo_cancha )
+    detalles = models.TextField(blank=True, null=True)
+    precioHora = models.FloatField(default=0.0, null=True, blank=True)
     imagen = models.ImageField(upload_to='imagenes/', blank=True, null=True)
     disponible = models.BooleanField(default=True)
     

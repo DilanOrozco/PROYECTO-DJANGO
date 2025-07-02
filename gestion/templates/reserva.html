@@ -1,8 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<br><br><br>
-<h1>
-Reserva tu canchaaaaaaaaaaaaaaaaaa
-</h1>
+<div class="cont">
+    <div class="grid-canchas">
+        {% for cancha in canchas %}
+        <div class="card">
+            <div class="img-card">
+                {% if cancha.imagen %}
+                <img src="{{ cancha.imagen.url }}" alt="{{ cancha.nombre }}">
+                {% else %}
+                <img src="{% static 'imagenes/default.jpg' %}" alt="{{ cancha.nombre }}">
+                {% endif %}
+                {% if cancha.disponible %}
+                <div class="status-badge disponible">Disponible</div>
+                {% else %}
+                <div class="status-badge ocupada">Ocupada</div>
+                {% endif %}
+            </div>
+            <div class="info-card">
+                <h3 class="card-title">{{ cancha.nombre }} ({{ cancha.get_tipo_display }})</h3>
+                <p class="card-description">Ubicación: {{ cancha.ubicacion }}</p>
+                <div class="card-footer">
+                    <div class="price">{{cancha.precioHora}}/hora</div>
+                    <a href="" class="btn-reservar">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

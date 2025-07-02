@@ -8,7 +8,9 @@
     <link rel="icon" href="../../static/img/logoblancosolo.png" type="image-png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <script src="https://kit.fontawesome.com/2132230c71.js" crossorigin="anonymous"></script>
 </head>
@@ -17,50 +19,82 @@
 
     <!-- HEADER MODERNO -->
     <header class="header">
-    <div class="container header-container">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="../../static/img/logoblanco.png" alt="Logo CanchApp" />
+            </div>
 
-        <!-- Logo -->
-        <div class="logo">
-        <img src="../../static/img/logoblanco.png" alt="Logo CanchApp" />
+            <!-- Navegación -->
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'index' %}">Inicio</a></li>
+                    <li><a href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li><a href="{% url 'listarCanchas' %}">Reserva tu cancha</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenedor derecho: Búsqueda + Autenticación -->
+            <div class="header-right">
+                <!-- Barra de búsqueda -->
+                <form class="search-form" method="GET" action="#">
+                    <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}"
+                        class="search-input">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <!-- Autenticación -->
+                {% if user.is_authenticated %}
+                <div class="user-dropdown">
+                    <button class="user-button" onclick="toggleDropdown()">
+                        <div class="user-avatar">
+                            {{ user.first_name.0|default:user.username.0|upper }}
+                        </div>
+                        <span class="user-name">{{ user.first_name|default:user.username }}</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </button>
+                    
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-header">
+                            <strong>{{ user.first_name|default:user.username }}</strong>
+                            <small>{{ user.email }}</small>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Mi Perfil
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-calendar-alt"></i> Mis Reservas
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Configuración
+                        </a>
+                        {% if user.is_staff or user.is_superuser %}
+                        <hr class="dropdown-divider">
+                        <a href="{%url 'admin:index'%}" class="dropdown-item admin-item">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard Admin
+                        </a>
+                        {% endif %}
+                        <hr class="dropdown-divider">
+                        <form method="POST" action="{% url 'logout' %}" class="dropdown-logout">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item logout-item">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'login' %}" class="btn btn-auth login-btn">Iniciar Sesión</a>
+                    <a href="{% url 'signUp' %}" class="btn btn-auth signup-btn">Registrarse</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
-        
-        <!-- Navegación -->
-        <nav class="nav">
-        <ul class="nav-list">
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'nosotros' %}">Nosotros</a></li>
-            <li><a href="{% url 'reserva' %}">Reserva tu cancha</a></li>
-        </ul>
-        </nav>
-
-        <!-- Barra de búsqueda -->
-<form class="search-form" method="GET" action="#">
-    <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}" class="search-input">
-    <button type="submit" class="search-btn">
-        <i class="fas fa-search"></i>
-    </button>
-</form>
-
-        
-        <!-- Autenticación -->
-        {% if user.is_authenticated %}
-        <div class="welcome-auth">
-        <span class="welcome-message">Bienvenido, {{ user.first_name|default:user.username }} 👋</span>
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn logout-btn">Cerrar Sesión</button>
-        </form>
-    <div>
-        {% else %}
-        <a href="{% url 'login' %}" class="btn btn-auth login-btn">Iniciar Sesión</a>
-        <a href="{% url 'signUp' %}" class="btn btn-auth signup-btn">Registrarse</a>
-        {% endif %}
-
-        
-    </div>
-    
-</header>
-
+    </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
@@ -72,15 +106,36 @@
     <!-- FOOTER MODERNO -->
     <footer class="footer">
         <div class="container footer-container">
-        <p>© 2025 CanchApp. Todos los derechos reservados.</p>
-        <ul class="social-icons">
-            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-        </ul>
+            <p>© 2025 CanchApp. Todos los derechos reservados.</p>
+            <ul class="social-icons">
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            </ul>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
     <script src="{% static 'js/app.js' %}"></script>
+    
+    <script>
+        // Función para toggle del dropdown
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Cerrar dropdown al hacer click fuera
+        document.addEventListener('click', function(event) {
+            const userDropdown = document.querySelector('.user-dropdown');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userDropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
 </body>
+
 </html>

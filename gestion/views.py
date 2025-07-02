@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegistroForm
 from django.contrib import messages
+from .models import Cancha, Reserva, Pago
 # Create your views here.
 
 def index (request):
@@ -9,9 +10,6 @@ def index (request):
 def nosotros (request):
     return render(request, 'nosotros.html')
 
-def reserva_cancha(request):
-
-    return render(request, 'reserva.html')
 
 def login (request):
     return render(request, 'login.html')
@@ -27,3 +25,7 @@ def registro(request):
     else:
         form = RegistroForm()
     return render(request, 'signUp.html', {'form': form})
+
+def listarCanchas(request):
+    canchas = Cancha.objects.all() 
+    return render(request, 'reserva.html', {'canchas' : canchas})
