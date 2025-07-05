@@ -22,7 +22,7 @@
                 <p class="card-description">Ubicación: {{ cancha.ubicacion }}</p>
                 <div class="card-footer">
                     <div class="price">{{cancha.precioHora}}/hora</div>
-                    <a href="" class="btn-reservar">
+                    <a href="{% url 'calendario_cancha' cancha.id %}" class="btn-reservar">
                         <i class="fas fa-calendar-plus"></i>
                         Reservar
                     </a>

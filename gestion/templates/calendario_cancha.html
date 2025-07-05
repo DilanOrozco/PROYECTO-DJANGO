@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario - {{ cancha.nombre }}</title>
+
+    <!-- FullCalendar CSS - Versión estable -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
+
+    <!-- FullCalendar JavaScript - Versión estable -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .calendar-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .cancha-info h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .cancha-details {
+            margin-bottom: 20px;
+        }
+
+        .cancha-details p {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .cancha-details strong {
+            width: 100px;
+            color: #555;
+        }
+
+        .cancha-image {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .estado-disponible {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .estado-no-disponible {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .precio {
+            font-size: 1.2em;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .horario-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #calendar {
+            width: 100%;
+            min-height: 600px;
+        }
+
+        .fc-event {
+            cursor: pointer;
+            border: none;
+            background: #007bff;
+        }
+
+        .fc-event:hover {
+            opacity: 0.8;
+        }
+
+        .fc-event-reservado {
+            background: #dc3545 !important;
+        }
+
+        .fc-event-disponible {
+            background: #28a745 !important;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #dc3545;
+            font-size: 18px;
+            background: #f8d7da;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        /* Modal de reserva */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: none;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .horarios-disponibles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .horario-slot {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .horario-slot:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+
+        .horario-slot.selected {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .horario-slot.ocupado {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sección de información de la cancha -->
+        <div class="info-section">
+            <div class="cancha-info">
+                <h2>{{ cancha.nombre }}</h2>
+
+                {% if cancha.imagen %}
+                <img src="{{ cancha.imagen.url }}" alt="{{ cancha.nombre }}" class="cancha-image">
+                {% endif %}
+
+                <div class="cancha-details">
+                    <p><strong>Tipo:</strong> {{ cancha.get_tipo_display }}</p>
+                    <p><strong>Ubicación:</strong> {{ cancha.ubicacion }}</p>
+                    <p><strong>Precio/Hora:</strong> <span class="precio">${{ cancha.precioHora }}</span></p>
+                    <p><strong>Estado:</strong>
+                        {% if cancha.disponible %}
+                        <span class="estado-disponible">Disponible</span>
+                        {% else %}
+                        <span class="estado-no-disponible">No disponible</span>
+                        {% endif %}
+                    </p>
+                    {% if cancha.detalles %}
+                    <p><strong>Detalles:</strong> {{ cancha.detalles }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="horario-info">
+                    <h4>Horarios de atención</h4>
+                    <p><strong>Horario:</strong> 6:00 AM - 11:00 PM</p>
+                    <p><strong>Duración mínima:</strong> 1 hora</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección del calendario -->
+        <div class="calendar-section">
+            <h2>Calendario de Reservas</h2>
+            <div id='calendar'></div>
+        </div>
+    </div>
+
+    <!-- Modal de reserva -->
+    <div id="reservaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Realizar Reserva</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Fecha seleccionada:</label>
+                    <input type="text" id="fechaSeleccionada" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Horarios disponibles:</label>
+                    <div class="horarios-disponibles" id="horariosDisponibles">
+                        <!-- Se llenarán dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Horario seleccionado:</label>
+                    <input type="text" id="horarioSeleccionado" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Costo total:</label>
+                    <input type="text" id="costoTotal" readonly>
+                </div>
+
+                <div style="text-align: right; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                    <button class="btn btn-primary" onclick="confirmarReserva()">Confirmar Reserva</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let calendar;
+        let modal;
+        let canchaId;
+        let precioPorHora;
+        let fechaSeleccionadaGlobal = null;
+        let horarioSeleccionadoGlobal = null;
+
+        // Función principal que se ejecuta cuando se carga la página
+        function inicializarCalendario() {
+            console.log('Inicializando calendario...');
+            
+            // Verificar que FullCalendar esté disponible
+            if (typeof FullCalendar === 'undefined') {
+                console.error('FullCalendar no está disponible');
+                mostrarError('Error: FullCalendar no se pudo cargar. Verifica tu conexión a internet.');
+                return;
+            }
+
+            // Inicializar variables
+            const calendarEl = document.getElementById('calendar');
+            canchaId = '{{ cancha.id }}';
+            precioPorHora = parseFloat('{{ cancha.precioHora|default:"0" }}');
+            modal = document.getElementById('reservaModal');
+
+            if (!calendarEl) {
+                console.error('No se encontró el elemento calendar');
+                return;
+            }
+
+            // Mostrar loading
+            mostrarLoading();
+
+            try {
+                // Crear el calendario
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    locale: 'es',
+                    height: 'auto',
+                    
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    },
+
+                    buttonText: {
+                        today: 'Hoy',
+                        month: 'Mes',
+                        week: 'Semana'
+                    },
+
+                    // Configuración de eventos
+                    events: function(fetchInfo, successCallback, failureCallback) {
+                        console.log('Cargando eventos...');
+                        
+                        fetch('/api/reservas/cancha/' + canchaId + '/')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error en la respuesta del servidor');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Eventos cargados:', data);
+                                successCallback(data);
+                            })
+                            .catch(error => {
+                                console.error('Error al cargar eventos:', error);
+                                failureCallback(error);
+                                // Mostrar eventos de ejemplo si falla la carga
+                                successCallback([]);
+                            });
+                    },
+
+                    selectable: true,
+                    selectMirror: true,
+                    dayMaxEvents: true,
+
+                    // Evento al hacer clic en un día
+                    dateClick: function(info) {
+                        console.log('Fecha seleccionada:', info.dateStr);
+                        fechaSeleccionadaGlobal = info.dateStr;
+                        mostrarModalReserva(info.dateStr);
+                    },
+
+                    // Evento al hacer clic en una reserva existente
+                    eventClick: function(info) {
+                        console.log('Evento clickeado:', info.event);
+                        mostrarDetallesReserva(info.event);
+                    },
+
+                    loading: function(bool) {
+                        if (bool) {
+                            console.log('Cargando...');
+                        } else {
+                            console.log('Carga completada');
+                        }
+                    },
+
+                    eventDidMount: function(info) {
+                        // Personalizar apariencia de eventos
+                        if (info.event.extendedProps.estado === 'reservado') {
+                            info.el.classList.add('fc-event-reservado');
+                        }
+                    }
+                });
+
+                // Renderizar el calendario
+                calendar.render();
+                console.log('Calendario renderizado exitosamente');
+
+            } catch (error) {
+                console.error('Error al crear el calendario:', error);
+                mostrarError('Error al inicializar el calendario: ' + error.message);
+            }
+        }
+
+        // Función para mostrar loading
+        function mostrarLoading() {
+            const calendarEl = document.getElementById('calendar');
+            calendarEl.innerHTML = '<div class="loading">Cargando calendario...</div>';
+        }
+
+        // Función para mostrar error
+        function mostrarError(mensaje) {
+            const calendarEl = document.getElementById('calendar');
+            calendarEl.innerHTML = '<div class="error">' + mensaje + '</div>';
+        }
+
+        // Función para mostrar el modal de reserva
+        function mostrarModalReserva(fecha) {
+            if (!modal) {
+                console.error('Modal no encontrado');
+                return;
+            }
+
+            document.getElementById('fechaSeleccionada').value = formatearFecha(fecha);
+            cargarHorariosDisponibles(fecha);
+            modal.style.display = 'block';
+        }
+
+        // Función para cargar horarios disponibles
+        function cargarHorariosDisponibles(fecha) {
+            const container = document.getElementById('horariosDisponibles');
+            container.innerHTML = '<div class="loading">Cargando horarios...</div>';
+
+            // Generar horarios de 6 AM a 11 PM
+            const horarios = [];
+            for (let i = 6; i <= 22; i++) {
+                const horaInicio = i.toString().padStart(2, '0') + ':00';
+                const horaFin = (i + 1).toString().padStart(2, '0') + ':00';
+                horarios.push({
+                    inicio: horaInicio,
+                    fin: horaFin,
+                    display: horaInicio + ' - ' + horaFin
+                });
+            }
+
+            // Verificar disponibilidad
+            fetch('/api/horarios-disponibles/' + canchaId + '/' + fecha + '/')
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = '';
+                    horarios.forEach(horario => {
+                        const slot = document.createElement('div');
+                        slot.className = 'horario-slot';
+                        slot.textContent = horario.display;
+                        slot.dataset.inicio = horario.inicio;
+                        slot.dataset.fin = horario.fin;
+
+                        // Verificar si está ocupado
+                        if (data.ocupados && data.ocupados.includes(horario.inicio)) {
+                            slot.classList.add('ocupado');
+                        } else {
+                            slot.addEventListener('click', function() {
+                                seleccionarHorario(this, horario);
+                            });
+                        }
+
+                        container.appendChild(slot);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar horarios:', error);
+                    container.innerHTML = '';
+                    horarios.forEach(horario => {
+                        const slot = document.createElement('div');
+                        slot.className = 'horario-slot';
+                        slot.textContent = horario.display;
+                        slot.dataset.inicio = horario.inicio;
+                        slot.dataset.fin = horario.fin;
+                        slot.addEventListener('click', function() {
+                            seleccionarHorario(this, horario);
+                        });
+                        container.appendChild(slot);
+                    });
+                });
+        }
+
+        // Función para seleccionar horario
+        function seleccionarHorario(elemento, horario) {
+            if (elemento.classList.contains('ocupado')) return;
+
+            // Remover selección anterior
+            document.querySelectorAll('.horario-slot.selected').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+
+            // Agregar selección actual
+            elemento.classList.add('selected');
+            horarioSeleccionadoGlobal = horario;
+
+            // Actualizar campos
+            document.getElementById('horarioSeleccionado').value = horario.display;
+            document.getElementById('costoTotal').value = '$' + precioPorHora.toFixed(2);
+        }
+
+        // Función para formatear fecha
+        function formatearFecha(fecha) {
+            const date = new Date(fecha);
+            return date.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Función para mostrar detalles de reserva
+        function mostrarDetallesReserva(event) {
+            const inicio = event.start.toLocaleString('es-ES');
+            const fin = event.end ? event.end.toLocaleString('es-ES') : 'No especificado';
+            alert('Reserva: ' + event.title + '\nInicio: ' + inicio + '\nFin: ' + fin);
+        }
+
+        // Función para confirmar reserva
+        function confirmarReserva() {
+            if (!horarioSeleccionadoGlobal) {
+                alert('Por favor, selecciona un horario');
+                return;
+            }
+
+            const reservaData = {
+                cancha_id: canchaId,
+                fecha: fechaSeleccionadaGlobal,
+                hora_inicio: horarioSeleccionadoGlobal.inicio,
+                hora_fin: horarioSeleccionadoGlobal.fin,
+                costo: precioPorHora
+            };
+
+            // Enviar reserva al servidor
+            fetch('/api/reservas/crear/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(reservaData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Reserva creada exitosamente');
+                    if (calendar) {
+                        calendar.refetchEvents();
+                    }
+                    cerrarModal();
+                } else {
+                    alert('Error al crear la reserva: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al crear la reserva');
+            });
+        }
+
+        // Función para cerrar modal
+        function cerrarModal() {
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            horarioSeleccionadoGlobal = null;
+            fechaSeleccionadaGlobal = null;
+        }
+
+        // Función para obtener el CSRF token de Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado, esperando FullCalendar...');
+            
+            // Esperar un poco más para que FullCalendar se cargue completamente
+            setTimeout(inicializarCalendario, 100);
+        });
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        };
+
+        // Cerrar modal con la X
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButton = document.querySelector('.close');
+            if (closeButton) {
+                closeButton.onclick = function() {
+                    cerrarModal();
+                };
+            }
+        });
+    </script>
+</body>
+
+</html>

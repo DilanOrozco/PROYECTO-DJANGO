@@ -27,8 +27,8 @@ class Reserva (models.Model):
         ('cancelada', 'Cancelada'), 
         ('finalizada', 'Finalizada'),
     ]
-    fechaInico = models.DateField()
-    fechaFin = models.DateTimeField()
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
     cancha = models.ForeignKey(Cancha, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     estado = models.CharField(max_length=20, choices=tipo_estado)
