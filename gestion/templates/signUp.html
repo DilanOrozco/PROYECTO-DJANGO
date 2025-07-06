@@ -19,7 +19,7 @@
             height: 100vh;
             align-items: center;
             justify-content: center;
-            background-color: #f0f4f8;
+            background-color: #194266;
         }
 
         .register-container {
@@ -28,12 +28,11 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 900px;
-            max-width: 100%;
+            width: 800px;
         }
 
         .left-panel {
-            background-color: #25a2a6;
+            background-color: #1f2937;
             color: white;
             flex: 1;
             display: flex;
@@ -41,6 +40,7 @@
             justify-content: center;
             align-items: center;
             padding: 40px;
+            text-align: center;
         }
 
         .left-panel h2 {
@@ -51,10 +51,9 @@
         .left-panel p {
             font-size: 14px;
             margin-bottom: 30px;
-            text-align: center;
         }
 
-        .left-panel a {
+        .left-panel a.btn-link {
             padding: 10px 20px;
             background-color: transparent;
             color: white;
@@ -62,11 +61,27 @@
             border-radius: 25px;
             text-decoration: none;
             transition: all 0.3s ease;
+            margin-bottom: 20px;
+            display: inline-block;
         }
 
-        .left-panel a:hover {
+        .left-panel a.btn-link:hover {
             background-color: white;
-            color: #25a2a6;
+            color: #1f2937;
+        }
+
+        .left-panel .texto-explorar {
+            font-size: 14px;
+        }
+
+        .left-panel .texto-explorar a {
+            color: white;
+            text-decoration: none;
+            transition: text-decoration 0.3s ease;
+        }
+
+        .left-panel .texto-explorar a:hover {
+            text-decoration: underline;
         }
 
         .form-panel {
@@ -132,7 +147,7 @@
 
         button {
             padding: 12px;
-            background-color: #25a2a6;
+            background-color: #1f2937;
             color: white;
             border: none;
             border-radius: 5px;
@@ -142,7 +157,7 @@
         }
 
         button:hover {
-            background-color: #1d7d80;
+            background-color: #194266;
         }
     </style>
 
@@ -152,8 +167,13 @@
     <div class="register-container">
         <div class="left-panel">
             <h2>¡Hola!</h2>
-            <p>Regístrese con sus datos personales para usar todas las funciones del sitio</p>
-            <a href="/login">Iniciar Sesión</a>
+            <p>¿Ya tienes una cuenta vinculada?</p>
+            <a href="/login" class="btn-link">Iniciar Sesión en CanchApp</a>
+
+            <!-- Texto de explorar sin registrarse -->
+            <div class="texto-explorar">
+                <a href="{% url 'index' %}">Seguir explorando sin registrarse</a>
+            </div>
         </div>
         <div class="form-panel">
             <h2>Registrarse</h2>
