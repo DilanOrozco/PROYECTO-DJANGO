@@ -13,6 +13,10 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <script src="https://kit.fontawesome.com/2132230c71.js" crossorigin="anonymous"></script>
+    <!-- FullCalendar CSS - Versión estable -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
+    <!-- FullCalendar JavaScript - Versión estable -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 </head>
 
 <body>
@@ -22,7 +26,7 @@
         <div class="header-container">
             <!-- Logo -->
             <div class="logo">
-                <img src="../../static/img/logoblanco.png" alt="Logo CanchApp" />
+                <img src="{% static 'img/logoblanco.png'%}" alt="Logo CanchApp" />
             </div>
 
             <!-- Navegación -->
@@ -37,13 +41,7 @@
             <!-- Contenedor derecho: Búsqueda + Autenticación -->
             <div class="header-right">
                 <!-- Barra de búsqueda -->
-                <form class="search-form" method="GET" action="#">
-                    <input type="text" name="q" placeholder="Buscar canchas..." value="{{ request.GET.q }}"
-                        class="search-input">
-                    <button type="submit" class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                
 
                 <!-- Autenticación -->
                 {% if user.is_authenticated %}
@@ -55,22 +53,13 @@
                         <span class="user-name">{{ user.first_name|default:user.username }}</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </button>
-                    
+
                     <div class="dropdown-menu" id="userDropdown">
                         <div class="dropdown-header">
                             <strong>{{ user.first_name|default:user.username }}</strong>
                             <small>{{ user.email }}</small>
                         </div>
-                        <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-user"></i> Mi Perfil
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-calendar-alt"></i> Mis Reservas
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-cog"></i> Configuración
-                        </a>
+                        
                         {% if user.is_staff or user.is_superuser %}
                         <hr class="dropdown-divider">
                         <a href="{%url 'admin:index'%}" class="dropdown-item admin-item">
@@ -117,8 +106,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
-    <script src="{% static 'js/app.js' %}"></script>
-    
     <script>
         // Función para toggle del dropdown
         function toggleDropdown() {
@@ -127,10 +114,10 @@
         }
 
         // Cerrar dropdown al hacer click fuera
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const userDropdown = document.querySelector('.user-dropdown');
             const dropdown = document.getElementById('userDropdown');
-            
+
             if (!userDropdown.contains(event.target)) {
                 dropdown.classList.remove('show');
             }

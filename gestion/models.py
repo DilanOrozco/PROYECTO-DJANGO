@@ -16,7 +16,6 @@ class Cancha (models.Model):
     detalles = models.TextField(blank=True, null=True)
     precioHora = models.FloatField(default=0.0, null=True, blank=True)
     imagen = models.ImageField(upload_to='imagenes/', blank=True, null=True)
-    disponible = models.BooleanField(default=True)
     
     def __str__(self):
         return f"{self.nombre} ({self.tipo})"
@@ -41,6 +40,7 @@ class Pago (models.Model):
         ('efectivo', 'Efectivo'),
         ('tarjeta', 'Tarjeta'),
         ('transferencia', 'Transferencia'),
+        ('pendiente', 'Pendiente'),  # NUEVO: Para facturas recién creadas
     ]
     fecha = models.DateTimeField()
     reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE)

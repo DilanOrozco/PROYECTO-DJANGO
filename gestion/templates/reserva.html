@@ -11,11 +11,6 @@
                 {% else %}
                 <img src="{% static 'imagenes/default.jpg' %}" alt="{{ cancha.nombre }}">
                 {% endif %}
-                {% if cancha.disponible %}
-                <div class="status-badge disponible">Disponible</div>
-                {% else %}
-                <div class="status-badge ocupada">Ocupada</div>
-                {% endif %}
             </div>
             <div class="info-card">
                 <h3 class="card-title">{{ cancha.nombre }} ({{ cancha.get_tipo_display }})</h3>

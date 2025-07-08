@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/reservas/cancha/<int:cancha_id>/', views.obtenerReservasCancha, name='api_reservas_cancha'),
     path('api/horarios-disponibles/<int:cancha_id>/<str:fecha>/', views.obtenerHorariosDisponibles, name='api_horarios_disponibles'),
     path('api/reservas/crear/', views.crearReserva, name='api_crear_reserva'),
+    path('api/reservas/cancelar/<int:reserva_id>/', views.cancelar_reserva, name='cancelar_reserva'),  # Nueva URL
 ]
